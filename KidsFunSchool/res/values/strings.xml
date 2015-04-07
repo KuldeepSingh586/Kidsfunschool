@@ -31,6 +31,6 @@
     <string name="score_string">You have gotten %1$d points</string>
     <string name="next_question">Next Flag</string>
     <string name="wikipedia">Wikipedia Link</string>
-    
+    <string name="world_regions_description">Regions to include in the quiz</string>
     
 </resources>
