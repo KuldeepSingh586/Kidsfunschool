@@ -33,27 +33,29 @@ import android.widget.TextView;
 
 public class MonumentQuizGame extends Activity 
 {
-   private static final String TAG = "FlagQuizGame Activity";  
+	// String used when logging error messages
+   private static final String TAG = "MonumentQuizGame Activity";  
    private List<String> fileNameList; // flag file names
    private List<String> quizCountriesList;
    private Map<String, Boolean> regionsMap; 
-   private String correctAnswer; 
+   private String correctAnswer;   // correct fruit for the current monuments
    private int totalGuesses; // number of guesses made
    private int correctAnswers; // number of correct guesses
-   private int guessRows; 
-   private Random random; 
-   private Handler handler;
-   private Animation shakeAnimation;
+   private int guessRows;    // correct country for the current monuments
+   private Random random;    // used to randomize the quiz
+   private Handler handler;   // used to delay loading next monuments
+   private Animation shakeAnimation;   // animation for incorrect monuments
    
-   private TextView answerTextView;
-   private TextView questionNumberTextView;
-   private ImageView flagImageView; 
+   private TextView answerTextView;  // displays Correct! or Incorrect!
+   private TextView questionNumberTextView;   // shows current question #
+   private ImageView monumentImageView;    // displays a fruit
    private TableLayout buttonTableLayout; 
    
    @Override
    public void onCreate(Bundle savedInstanceState) 
    {
-      super.onCreate(savedInstanceState); 
+	
+      super.onCreate(savedInstanceState);  
       setContentView(R.layout.main); 
 
       fileNameList = new ArrayList<String>();
@@ -70,7 +72,7 @@ public class MonumentQuizGame extends Activity
          regionsMap.put(region, true);
       questionNumberTextView = 
          (TextView) findViewById(R.id.questionNumberTextView);
-      flagImageView = (ImageView) findViewById(R.id.imageView);
+      monumentImageView = (ImageView) findViewById(R.id.imageView);
       buttonTableLayout = 
          (TableLayout) findViewById(R.id.buttonTableLayout);
       answerTextView = (TextView) findViewById(R.id.answerTextView);
@@ -80,18 +82,21 @@ public class MonumentQuizGame extends Activity
 
       resetQuiz();
    } 
+   // set up and start the next quiz 
    private void resetQuiz() 
    {      
+	   // use AssetManager to get image file names for enabled regions
       AssetManager assets = getAssets(); 
-      fileNameList.clear();
+      fileNameList.clear();  // empty list of image file names
       
       try 
       {
          Set<String> regions = regionsMap.keySet();
-
+         // loop through each region
          for (String region : regions) 
          {
             if (regionsMap.get(region))
+            	 // get a list of all monument image files in this region
             {               String[] paths = assets.list(region);
 
                for (String path : paths) 
@@ -104,92 +109,115 @@ public class MonumentQuizGame extends Activity
          Log.e(TAG, "Error loading image file names", e);
       } 
       
-      correctAnswers = 0; 
-      totalGuesses = 0; 
-      quizCountriesList.clear(); 
+      correctAnswers = 0;  // reset the number of correct answers made
+      totalGuesses = 0;    // reset the total number of guesses the user made
+      quizCountriesList.clear();   // clear prior list of quiz animal
       
       int flagCounter = 1; 
       int numberOfFlags = fileNameList.size();
+      // add MONUMENT_IN_QUIZ random file names to the quizCountriesList
       while (flagCounter <= 10) 
       {
          int randomIndex = random.nextInt(numberOfFlags);          
          String fileName = fileNameList.get(randomIndex);
+         // if the region is enabled and it hasn't already been chosen
          if (!quizCountriesList.contains(fileName)) 
          {
-            quizCountriesList.add(fileName); 
+            quizCountriesList.add(fileName); // add the file to the list
             ++flagCounter;
          }}
-      loadNextFlag();
-   } 
+      loadNextFlag();// start the quiz by loading the first monument
+   } // end method resetQuiz
+   
+   // after the quiz is finished it will take the player to the 1st page
    private void loadNextFlag() 
    {
+	   // get file name of the next fruit and remove it from the list
       String nextImageName = quizCountriesList.remove(0);
-      correctAnswer = nextImageName;
+      correctAnswer = nextImageName; // update the correct answer
 
-      answerTextView.setText("");  
+      answerTextView.setText("");    // update the correct answer
+      
+      // display current question number
       questionNumberTextView.setText(
          getResources().getString(R.string.question) + " " + 
          (correctAnswers + 1) + " " + 
          getResources().getString(R.string.of) + " 10");
+      
+      // extract the region from the next image's name
       String region = 
          nextImageName.substring(0, nextImageName.indexOf('-'));
       AssetManager assets = getAssets(); // get app's AssetManager
       InputStream stream;
       try
       {
+    	  // get an Stream to the asset representing the next monument
     	  stream = assets.open(region + "/" + nextImageName + ".png");
          
+    	  
+    	  // load the asset as a Drawable and display on the monumentImageView
          Drawable flag = Drawable.createFromStream(stream, nextImageName);
-         flagImageView.setImageDrawable(flag);                       
+         monumentImageView.setImageDrawable(flag);                       
       }
       catch (IOException e)  
       {
          Log.e(TAG, "Error loading " + nextImageName, e);
       } 
+     
       for (int row = 0; row < buttonTableLayout.getChildCount(); ++row)
          ((TableRow) buttonTableLayout.getChildAt(row)).removeAllViews();
 
-      Collections.shuffle(fileNameList); 
+      Collections.shuffle(fileNameList);  // shuffle file names
       
+      // put the correct answer at the end of fileNameList
       int correct = fileNameList.indexOf(correctAnswer);
       fileNameList.add(fileNameList.remove(correct));
 
       LayoutInflater inflater = (LayoutInflater) getSystemService(
          Context.LAYOUT_INFLATER_SERVICE);
 
-      
+      // add 3, 6, or 9 guess Buttons based on the value of guessRows
       for (int row = 0; row < guessRows; row++) 
       {
          TableRow currentTableRow = getTableRow(row);
 
+         // place Buttons in currentTableRow
          for (int column = 0; column < 3; column++) 
          {
+        	 
             Button newGuessButton = 
                (Button) inflater.inflate(R.layout.guess_button, null);
+            
+            // get monument name and set it as newGuessButton's text
             String fileName = fileNameList.get((row * 3) + column);
-            newGuessButton.setText(getCountryName(fileName));
+            
+           
+            newGuessButton.setText(getMonumentName(fileName));
             newGuessButton.setOnClickListener(guessButtonListener);
             currentTableRow.addView(newGuessButton);
          } 
       } 
-      int row = random.nextInt(guessRows);
-      int column = random.nextInt(3); 
-      TableRow randomTableRow = getTableRow(row);
-      String countryName = getCountryName(correctAnswer);
+      // randomly replace one Button with the correct answer
+      int row = random.nextInt(guessRows);  // pick random row
+      int column = random.nextInt(3);   // pick random column
+      TableRow randomTableRow = getTableRow(row); // get the row
+      String countryName = getMonumentName(correctAnswer);
       ((Button)randomTableRow.getChildAt(column)).setText(countryName);    
    } 
+   
+   // parses the fruit file name and returns the monument name
    private TableRow getTableRow(int row)
    {
       return (TableRow) buttonTableLayout.getChildAt(row);
    } 
-   private String getCountryName(String name)
+   private String getMonumentName(String name)
    {
       return name.substring(name.indexOf('-') + 1).replace('_', ' ');
    }
    private void submitGuess(Button guessButton) 
    {
       String guess = guessButton.getText().toString();
-      String answer = getCountryName(correctAnswer);
+      String answer = getMonumentName(correctAnswer);
       ++totalGuesses; 
       if (guess.equals(answer)) 
       {
@@ -236,7 +264,7 @@ public class MonumentQuizGame extends Activity
          }
       } 
       else  
-      {  flagImageView.startAnimation(shakeAnimation);
+      {  monumentImageView.startAnimation(shakeAnimation);
          answerTextView.setText(R.string.incorrect_answer);
          answerTextView.setTextColor(
             getResources().getColor(R.color.incorrect_answer));
