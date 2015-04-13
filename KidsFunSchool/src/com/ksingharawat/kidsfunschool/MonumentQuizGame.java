@@ -65,7 +65,7 @@ public class MonumentQuizGame extends Activity
       shakeAnimation = 
          AnimationUtils.loadAnimation(this, R.anim.incorrect_shake); 
       shakeAnimation.setRepeatCount(3); String[] regionNames = 
-         getResources().getStringArray(R.array.vegetablesList);
+         getResources().getStringArray(R.array.monumentsList);
       for (String region : regionNames )
          regionsMap.put(region, true);
       questionNumberTextView = 
