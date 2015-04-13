@@ -1,7 +1,9 @@
 package com.ksingharawat.kidsfunschool;
 
 import com.ksar.flagquizgame.AnimalQuizGame;
+import com.ksar.flagquizgame.FruitQuizGame;
 import com.ksar.flagquizgame.Main;
+import com.ksar.flagquizgame.MonumentQuizGame;
 import com.ksar.flagquizgame.Override;
 import com.ksar.flagquizgame.R;
 
@@ -21,6 +23,8 @@ public class MainActivity extends Activity {
 	 ImageButton button;
 	 ImageButton button1;
 	 ImageButton button2;
+	 ImageButton button3;
+	 ImageButton button4;
 	public static final String CHOICES = null;
 	public static final String REGIONS = null;
 
@@ -36,6 +40,8 @@ public class MainActivity extends Activity {
 		 button = (ImageButton) findViewById(R.id.flagButton);
 		 button1 = (ImageButton) findViewById(R.id.animalButton);
 		 button2 = (ImageButton) findViewById(R.id.fruitsButton);
+		 button3 = (ImageButton) findViewById(R.id.vegetablesButton);
+		 button4 = (ImageButton) findViewById(R.id.monumentButton);
 		 
 		 
 		 button.setOnClickListener(new OnClickListener() {
@@ -60,6 +66,18 @@ public class MainActivity extends Activity {
 	           
 	          }
 	        });	
+		 button2.setOnClickListener(new OnClickListener() {
+	          @Override
+	          public void onClick(View view) {
+	            Toast.makeText(MainActivity.this,"ImageButton Clicked : Fruit Button Clicked", 
+	            Toast.LENGTH_SHORT).show();
+	            setContentView(R.layout.main);
+	            Intent intent = new Intent(MainActivity.this, FruitQuizGame.class);
+	  		  startActivity(intent);
+	           
+	          }
+	        });	
+		
 	 }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
