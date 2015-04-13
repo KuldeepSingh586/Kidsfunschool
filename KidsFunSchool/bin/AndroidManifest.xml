@@ -26,6 +26,7 @@
 </activity>
  <activity android:name="com.ksingharawat.kidsfunschool.VegetableQuizGame">
 </activity>
+
     </application>
 
 </manifest>
