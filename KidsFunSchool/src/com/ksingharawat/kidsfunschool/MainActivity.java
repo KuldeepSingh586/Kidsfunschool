@@ -1,5 +1,10 @@
 package com.ksingharawat.kidsfunschool;
 
+import com.ksar.flagquizgame.AnimalQuizGame;
+import com.ksar.flagquizgame.Main;
+import com.ksar.flagquizgame.Override;
+import com.ksar.flagquizgame.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +18,9 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	
-	ImageButton button;
+	 ImageButton button;
+	 ImageButton button1;
+	 ImageButton button2;
 	public static final String CHOICES = null;
 	public static final String REGIONS = null;
 
@@ -27,6 +34,8 @@ public class MainActivity extends Activity {
 	 private void addListenerOnButton() {
 			
 		 button = (ImageButton) findViewById(R.id.flagButton);
+		 button1 = (ImageButton) findViewById(R.id.animalButton);
+		 button2 = (ImageButton) findViewById(R.id.fruitsButton);
 		 
 		 
 		 button.setOnClickListener(new OnClickListener() {
@@ -40,6 +49,17 @@ public class MainActivity extends Activity {
 	           
 	          }
 	        });		
+		 button1.setOnClickListener(new OnClickListener() {
+	          @Override
+	          public void onClick(View view) {
+	            Toast.makeText(MainActivity.this,"ImageButton Clicked : Animal Button Clicked", 
+	            Toast.LENGTH_SHORT).show();
+	            setContentView(R.layout.main);
+	            Intent intent = new Intent(MainActivity.this, AnimalQuizGame.class);
+	  		  startActivity(intent);
+	           
+	          }
+	        });	
 	 }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -17,12 +17,12 @@
             android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
-                <action android:name="android.intent.action.MainActivity" />
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.ksar.flagquizgame.FlagQuizGame">
+        <activity android:name="com.ksingharawat.kidsfunschool.FlagQuizGame">
 </activity>
     </application>
 
