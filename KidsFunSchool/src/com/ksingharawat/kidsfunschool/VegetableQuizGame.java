@@ -37,8 +37,8 @@ public class VegetableQuizGame extends Activity
 {
    private static final String TAG = "FlagQuizGame Activity";  
    private List<String> fileNameList; // flag file names
-   private List<String> quizCountriesList;
-   private Map<String, Boolean> regionsMap; 
+   private List<String> quizVegetablesList;
+   private Map<String, Boolean> vegetablesMap; 
    private String correctAnswer; 
    private int totalGuesses; // number of guesses made
    private int correctAnswers; // number of correct guesses
@@ -49,7 +49,7 @@ public class VegetableQuizGame extends Activity
    
    private TextView answerTextView;
    private TextView questionNumberTextView;
-   private ImageView flagImageView; 
+   private ImageView vegImageView; 
    private TableLayout buttonTableLayout; 
    
    @Override
@@ -59,8 +59,8 @@ public class VegetableQuizGame extends Activity
       setContentView(R.layout.main); 
 
       fileNameList = new ArrayList<String>();
-      quizCountriesList = new ArrayList<String>(); 
-      regionsMap = new HashMap<String, Boolean>(); 
+      quizVegetablesList = new ArrayList<String>(); 
+      vegetablesMap = new HashMap<String, Boolean>(); 
       guessRows = 2; 
       random = new Random(); 
       handler = new Handler(); 
@@ -69,10 +69,10 @@ public class VegetableQuizGame extends Activity
       shakeAnimation.setRepeatCount(3); String[] regionNames = 
          getResources().getStringArray(R.array.vegetablesList);
       for (String region : regionNames )
-         regionsMap.put(region, true);
+         vegetablesMap.put(region, true);
       questionNumberTextView = 
          (TextView) findViewById(R.id.questionNumberTextView);
-      flagImageView = (ImageView) findViewById(R.id.imageView);
+      vegImageView = (ImageView) findViewById(R.id.imageView);
       buttonTableLayout = 
          (TableLayout) findViewById(R.id.buttonTableLayout);
       answerTextView = (TextView) findViewById(R.id.answerTextView);
@@ -89,11 +89,11 @@ public class VegetableQuizGame extends Activity
       
       try 
       {
-         Set<String> regions = regionsMap.keySet();
+         Set<String> regions = vegetablesMap.keySet();
 
          for (String region : regions) 
          {
-            if (regionsMap.get(region))
+            if (vegetablesMap.get(region))
             {               String[] paths = assets.list(region);
 
                for (String path : paths) 
@@ -108,7 +108,7 @@ public class VegetableQuizGame extends Activity
       
       correctAnswers = 0; 
       totalGuesses = 0; 
-      quizCountriesList.clear(); 
+      quizVegetablesList.clear(); 
       
       int flagCounter = 1; 
       int numberOfFlags = fileNameList.size();
@@ -116,16 +116,16 @@ public class VegetableQuizGame extends Activity
       {
          int randomIndex = random.nextInt(numberOfFlags);          
          String fileName = fileNameList.get(randomIndex);
-         if (!quizCountriesList.contains(fileName)) 
+         if (!quizVegetablesList.contains(fileName)) 
          {
-            quizCountriesList.add(fileName); 
+            quizVegetablesList.add(fileName); 
             ++flagCounter;
          }}
       loadNextFlag();
    } 
    private void loadNextFlag() 
    {
-      String nextImageName = quizCountriesList.remove(0);
+      String nextImageName = quizVegetablesList.remove(0);
       correctAnswer = nextImageName;
 
       answerTextView.setText("");  
@@ -142,7 +142,7 @@ public class VegetableQuizGame extends Activity
     	  stream = assets.open(region + "/" + nextImageName + ".png");
          
          Drawable flag = Drawable.createFromStream(stream, nextImageName);
-         flagImageView.setImageDrawable(flag);                       
+         vegImageView.setImageDrawable(flag);                       
       }
       catch (IOException e)  
       {
@@ -238,7 +238,7 @@ public class VegetableQuizGame extends Activity
          }
       } 
       else  
-      {  flagImageView.startAnimation(shakeAnimation);
+      {  vegImageView.startAnimation(shakeAnimation);
          answerTextView.setText(R.string.incorrect_answer);
          answerTextView.setTextColor(
             getResources().getColor(R.color.incorrect_answer));
@@ -298,11 +298,11 @@ public class VegetableQuizGame extends Activity
 
          case REGIONS_MENU_ID:
             final String[] regionNames = 
-               regionsMap.keySet().toArray(new String[regionsMap.size()]);
+               vegetablesMap.keySet().toArray(new String[vegetablesMap.size()]);
          
-            boolean[] regionsEnabled = new boolean[regionsMap.size()];
+            boolean[] regionsEnabled = new boolean[vegetablesMap.size()];
             for (int i = 0; i < regionsEnabled.length; ++i)
-               regionsEnabled[i] = regionsMap.get(regionNames[i]);
+               regionsEnabled[i] = vegetablesMap.get(regionNames[i]);
             AlertDialog.Builder regionsBuilder =
                new AlertDialog.Builder(this);
             regionsBuilder.setTitle(R.string.regions);
@@ -319,7 +319,7 @@ public class VegetableQuizGame extends Activity
                   public void onClick(DialogInterface dialog, int which,
                      boolean isChecked) 
                   {
-                   regionsMap.put(
+                   vegetablesMap.put(
                         regionNames[which].toString(), isChecked);
                   }
                } 
