@@ -73,6 +73,7 @@ public class FlagQuizGame extends Activity {
 	      shakeAnimation = 
 	         AnimationUtils.loadAnimation(this, R.anim.incorrect_shake); 
 	      shakeAnimation.setRepeatCount(3); // animation repeats 3 times 
+	    //Storing the regionNames into array
 	      String[] regionNames = 
 	         getResources().getStringArray(R.array.regionsList);
 	      for (String region : regionNames )// creating a for loop
@@ -90,7 +91,7 @@ public class FlagQuizGame extends Activity {
 	         getResources().getString(R.string.question) + " 1 " + 
 	         getResources().getString(R.string.of) + " 10"); //display 1 to 10 Question on Main.xml at the top
 
-	      resetQuiz(); //cal this method to reset the quiz
+	      resetQuiz(); //call this method to reset the quiz
 	   } 
 	   
 	   //resetQuiz method to reset the quiz
