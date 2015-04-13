@@ -25,7 +25,7 @@
         android:layout_height="150dp"
         android:layout_alignParentEnd="false"
         android:layout_marginLeft="5dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="0dp"
         android:background="@drawable/ani_icon"
         android:src="@drawable/ani_icon" />
 
@@ -44,7 +44,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="200dp"
-        android:layout_marginTop="2dp"
+        android:layout_marginTop="0dp"
         android:contentDescription="@string/flag"
         android:src="@drawable/icon_flag" />
 
@@ -65,7 +65,7 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_marginLeft="100dp"
-        android:layout_marginTop="170dp"
+        android:layout_marginTop="160dp"
         android:contentDescription="@string/monument"
         android:src="@drawable/icon_monu" />
 
@@ -74,7 +74,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="130dp"
-        android:layout_marginTop="290dp"
+        android:layout_marginTop="280dp"
         android:text="@string/monument"
         android:textColor="@color/text_color" />
 
@@ -82,7 +82,7 @@
         android:id="@+id/vegetablesButton"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="305dp"
         android:src="@drawable/veg_icon" />
 
     <TextView
@@ -90,7 +90,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="480dp"
+        android:layout_marginTop="460dp"
         android:text="@string/Vegetables"
         android:textColor="@color/text_color" />
 
@@ -99,7 +99,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="200dp"
-        android:layout_marginTop="320dp"
+        android:layout_marginTop="305dp"
         android:background="@drawable/fruit_icon"
         android:contentDescription="@string/fruits"
         android:src="@drawable/icon_fruit" />
