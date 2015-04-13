@@ -23,4 +23,11 @@
         <item >9</item>
     </string-array>
     
+    <string-array name="animal_list">
+        <item >animal</item>
+      </string-array> 
+      
+      <string-array name="animal_list_for_settings">
+         <item >animal</item>
+     </string-array> 
 </resources>
