@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -142,7 +143,16 @@ public class VegetableQuizGame extends Activity
             ++flagCounter;// and increment the flag counter with 1
          }}
       loadNextFlag();// load the next flag from the assets folder
-   } 
+   }
+   
+   // after the quiz is finished it will take the player to the 1st page
+   private void goMainMenu() 
+   {      
+ 	  
+	   Intent intent = new Intent(VegetableQuizGame.this, MainActivity.class);
+		  startActivity(intent);
+   }
+   
    //loadNextFlag()method declared here
 	 //method to load the next flag 
    private void loadNextFlag() 
@@ -272,12 +282,12 @@ public class VegetableQuizGame extends Activity
                getResources().getString(R.string.correct)));
 
             builder.setCancelable(false); 
-            builder.setPositiveButton(R.string.reset_quiz,
+            builder.setPositiveButton(R.string.mainmenu_quiz,
                new DialogInterface.OnClickListener()                
                {                                                       
                   public void onClick(DialogInterface dialog, int id) 
                   {
-                     resetQuiz();  // rest the quiz                                        
+                	  goMainMenu();  // rest the quiz                                        
                   }                              
                }
             ); 
@@ -388,13 +398,13 @@ public class VegetableQuizGame extends Activity
                } 
             ); 
           
-            vegetableBuilder.setPositiveButton(R.string.reset_quiz,
+            vegetableBuilder.setPositiveButton(R.string.mainmenu_quiz,
                new DialogInterface.OnClickListener()
                {
                   @Override
                   public void onClick(DialogInterface dialog, int button)
                   {
-                     resetQuiz(); 
+                	  goMainMenu();
                   } 
                } 
             ); 
