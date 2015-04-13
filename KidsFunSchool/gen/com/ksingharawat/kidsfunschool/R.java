@@ -12,6 +12,8 @@ public final class R {
         public static final int incorrect_shake=0x7f040000;
     }
     public static final class array {
+        public static final int animalsList=0x7f060003;
+        public static final int fruitsList=0x7f060004;
         public static final int guesses_list=0x7f060002;
         public static final int regions_list=0x7f060000;
         public static final int regions_list_for_settings=0x7f060001;
@@ -36,14 +38,23 @@ public final class R {
         public static final int spacing=0x7f080002;
     }
     public static final class drawable {
-        public static final int animal=0x7f020000;
-        public static final int animals=0x7f020001;
-        public static final int flag=0x7f020002;
-        public static final int fruits=0x7f020003;
-        public static final int ic_launcher=0x7f020004;
-        public static final int monuments=0x7f020005;
-        public static final int unnamed=0x7f020006;
-        public static final int vegetables=0x7f020007;
+        public static final int ani_icon=0x7f020000;
+        public static final int animal=0x7f020001;
+        public static final int animals=0x7f020002;
+        public static final int back=0x7f020003;
+        public static final int flag=0x7f020004;
+        public static final int fruit_icon=0x7f020005;
+        public static final int fruits=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int icon_flag=0x7f020008;
+        public static final int icon_fruit=0x7f020009;
+        public static final int icon_monu=0x7f02000a;
+        public static final int mainback=0x7f02000b;
+        public static final int monuments=0x7f02000c;
+        public static final int title_1=0x7f02000d;
+        public static final int unnamed=0x7f02000e;
+        public static final int veg_icon=0x7f02000f;
+        public static final int vegetables=0x7f020010;
     }
     public static final class id {
         public static final int RelativeLayout1=0x7f0c0000;
@@ -84,6 +95,7 @@ public final class R {
         public static final int activity_main_flag=0x7f030001;
         public static final int activity_settings=0x7f030002;
         public static final int fragment_quiz=0x7f030003;
+        public static final int launch_main=0x7f030004;
     }
     public static final class menu {
         public static final int main=0x7f0b0000;
