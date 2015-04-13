@@ -62,11 +62,11 @@ public class FlagQuizGame extends Activity {
 	      super.onCreate(savedInstanceState); 
 	      setContentView(R.layout.main); 
 
-	      fileNameList = new ArrayList<String>();
-	      quizCountriesList = new ArrayList<String>(); 
-	      regionsMap = new HashMap<String, Boolean>(); 
-	      guessRows = 2; 
-	      random = new Random(); 
+	      fileNameList = new ArrayList<String>();//creating array of name list
+	      quizCountriesList = new ArrayList<String>(); //creating array list of countries list
+	      regionsMap = new HashMap<String, Boolean>(); //create Hash Map
+	      guessRows = 2; //Number of guess rows
+	      random = new Random(); //Calling Random function
 	      handler = new Handler(); 
 	      
 	      // load the shake animation that's used for incorrect answers
@@ -75,99 +75,124 @@ public class FlagQuizGame extends Activity {
 	      shakeAnimation.setRepeatCount(3); // animation repeats 3 times 
 	      String[] regionNames = 
 	         getResources().getStringArray(R.array.regionsList);
-	      for (String region : regionNames )
-	         regionsMap.put(region, true);
+	      for (String region : regionNames )// creating a for loop
+	         regionsMap.put(region, true);//putting regions into hash map
 	      // get references to GUI components
 	      questionNumberTextView = 
-	         (TextView) findViewById(R.id.questionNumberTextView);
-	      flagImageView = (ImageView) findViewById(R.id.imageView);
+	         (TextView) findViewById(R.id.questionNumberTextView);//getting Question text id and used further to set the the Question TextView 
+	      flagImageView = (ImageView) findViewById(R.id.imageView);//getting Image id and used further to set the the Image on main.xml 
 	      buttonTableLayout = 
 	         (TableLayout) findViewById(R.id.buttonTableLayout);
 	      answerTextView = (TextView) findViewById(R.id.answerTextView);
+	   // set questionNumberTextView's text
+	      // getResources() class for accessing an application's resources   
 	      questionNumberTextView.setText(
 	         getResources().getString(R.string.question) + " 1 " + 
-	         getResources().getString(R.string.of) + " 10");
+	         getResources().getString(R.string.of) + " 10"); //display 1 to 10 Question on Main.xml at the top
 
-	      resetQuiz();
+	      resetQuiz(); //cal this method to reset the quiz
 	   } 
+	   
+	   //resetQuiz method to reset the quiz
 	   private void resetQuiz() 
 	   {      
-	      AssetManager assets = getAssets(); 
-	      fileNameList.clear();
+		  
+	      AssetManager assets = getAssets(); // asset manager of the application (accessible through getAssets()) 
+	      fileNameList.clear(); //clear the list
 	      
 	      try 
 	      {
-	         Set<String> regions = regionsMap.keySet();
+	         Set<String> regions = regionsMap.keySet();//Creating a set og regions map
 
-	         for (String region : regions) 
+	         for (String region : regions) //for loop to find out regions
 	         {
 	            if (regionsMap.get(region))
-	            {               String[] paths = assets.list(region);
+	            {               String[] paths = assets.list(region);//store the list into path 
 
 	               for (String path : paths) 
-	                  fileNameList.add(path.replace(".png", ""));
+	                  fileNameList.add(path.replace(".png", ""));//find the .png in the file name and replace it
 	            }
 	         }
 	      } 
-	      catch (IOException e) 
+	      catch (IOException e) //catch the exception if there is an error loading image file names
 	      {
 	         Log.e(TAG, "Error loading image file names", e);
 	      } 
 	      
-	      correctAnswers = 0; 
-	      totalGuesses = 0; 
-	      quizCountriesList.clear(); 
+	      correctAnswers = 0; //set the correct answer 0 in the beginning 
+	      totalGuesses = 0; //set the correct answer 0 in the beginning 
+	      quizCountriesList.clear(); //clear the country list
 	      
-	      int flagCounter = 1; 
-	      int numberOfFlags = fileNameList.size();
-	      while (flagCounter <= 10) 
+	      int flagCounter = 1; //set the counter to 1
+	      int numberOfFlags = fileNameList.size();//get the number of flag
+	      while (flagCounter <= 10) //if the number of flag is less than or equal to 10 then while loop work
 	      {
-	         int randomIndex = random.nextInt(numberOfFlags);          
-	         String fileName = fileNameList.get(randomIndex);
-	         if (!quizCountriesList.contains(fileName)) 
+	         int randomIndex = random.nextInt(numberOfFlags); //find the random index of flag         
+	         String fileName = fileNameList.get(randomIndex);//get the file name so that it can be set on button  as a name
+	         if (!quizCountriesList.contains(fileName)) //check the condition quizcountry list contain file name or not
 	         {
-	            quizCountriesList.add(fileName); 
-	            ++flagCounter;
+	            quizCountriesList.add(fileName); // if not add to quizCountriesList 
+	            ++flagCounter;// and increment the flag counter with 1
 	         }}
-	      loadNextFlag();
+	      loadNextFlag();// load the next flag from the assets folder
 	   } 
+	   //loadNextFlag()method declared here
+	 //method to load the next flag 
 	   private void loadNextFlag() 
 	   {
-	      String nextImageName = quizCountriesList.remove(0);
-	      correctAnswer = nextImageName;
+	      String nextImageName = quizCountriesList.remove(0);//Removes the object at the specified location from this List
+	      correctAnswer = nextImageName;//correct answer stored into the correctAnswer object
 
 	      answerTextView.setText("");  
+	   // set questionNumberTextView's text
 	      questionNumberTextView.setText(
 	         getResources().getString(R.string.question) + " " + 
 	         (correctAnswers + 1) + " " + 
-	         getResources().getString(R.string.of) + " 10");
+	         getResources().getString(R.string.of) + " 10");//set the Question textView(questionNumberTextView)
+	      
+	    //getting the name of region, used substring method to find the index of (-) and break it 
+	     //store the name of region from substring at index of 0
+	      //for example if flag name is Africa-Djibouti then it break it to the Africa and Djibouti
+	      //store that value of index 0 to String region
 	      String region = 
 	         nextImageName.substring(0, nextImageName.indexOf('-'));
+	      
+	      //Retrieve underlying AssetManager storage for these resources.
 	      AssetManager assets = getAssets(); // get app's AssetManager
-	      InputStream stream;
+	      
+	      //InputStream will use input streams that read data from the file system
+	      InputStream stream;//creating the object of input stream 
 	      try
 	      {
-	    	  stream = assets.open(region + "/" + nextImageName + ".png");
-	         
+	    	  stream = assets.open(region + "/" + nextImageName + ".png");//open the assets folder 
+	    	  
+	         //draw the picture into a Bitmap from which you can persist it as raw or compressed pixels.
 	         Drawable flag = Drawable.createFromStream(stream, nextImageName);
+	         
+	         //Set the flag image on Main.xml file
 	         flagImageView.setImageDrawable(flag);                       
 	      }
-	      catch (IOException e)  
+	      catch (IOException e)  // Catch the Exception if Error loading the file name
 	      {
-	         Log.e(TAG, "Error loading " + nextImageName, e);
+	         Log.e(TAG, "Error loading " + nextImageName, e);//Output can be seen at console or logCat
 	      } 
-	      for (int row = 0; row < buttonTableLayout.getChildCount(); ++row)
+	      for (int row = 0; row < buttonTableLayout.getChildCount(); ++row)// for loop, Get the number of flags exists in that floder
 	         ((TableRow) buttonTableLayout.getChildAt(row)).removeAllViews();
-
+	      
+          //Moves every element of the list to a random new position 
+	      //in the list using the specified random number generator.
 	      Collections.shuffle(fileNameList); 
 	      
+	      //Get the correct Answer index and store the name in correct variable 
 	      int correct = fileNameList.indexOf(correctAnswer);
+	      //add the file name into file name list
 	      fileNameList.add(fileNameList.remove(correct));
-
+	      
+	      //Use with getSystemService(String) to retrieve a LayoutInflater for inflating layout resources in this context.
 	      LayoutInflater inflater = (LayoutInflater) getSystemService(
 	         Context.LAYOUT_INFLATER_SERVICE);
 
-	      
+	      //for loop
 	      for (int row = 0; row < guessRows; row++) 
 	      {
 	         TableRow currentTableRow = getTableRow(row);
@@ -182,20 +207,36 @@ public class FlagQuizGame extends Activity {
 	            currentTableRow.addView(newGuessButton);
 	         } 
 	      } 
-	      int row = random.nextInt(guessRows);
-	      int column = random.nextInt(3); 
+	      int row = random.nextInt(guessRows);//Number of rows randomly
+	      int column = random.nextInt(3); //number of Columns randomly 
 	      TableRow randomTableRow = getTableRow(row);
 	      String countryName = getCountryName(correctAnswer);
 	      ((Button)randomTableRow.getChildAt(column)).setText(countryName);    
 	   } 
-	   private TableRow getTableRow(int row)
+	   
+	   //Creating getTableRow method
+	   private TableRow getTableRow(int row) 
 	   {
-	      return (TableRow) buttonTableLayout.getChildAt(row);
+	      return (TableRow) buttonTableLayout.getChildAt(row); //return the TableRow
 	   } 
+	   //Creating Method getCountryName and 
+	   //Take one String argument
+	   //return the String name
 	   private String getCountryName(String name)
 	   {
 	      return name.substring(name.indexOf('-') + 1).replace('_', ' ');
 	   }
+	   
+	 //comments for submitGuess() Method 
+	   /**
+	    * submitGuess() Method 
+	    * accept one argument of type button
+	    * Get the text from guess button
+	    * if the guess button equal to answer 
+	    *  then Set the color to BLACK
+	    *  Otherwise set to RED
+	    * @param guessButton
+	    */
 	   private void submitGuess(Button guessButton) 
 	   {
 	      String guess = guessButton.getText().toString();
@@ -208,7 +249,7 @@ public class FlagQuizGame extends Activity {
 	         answerTextView.setTextColor(
 	            getResources().getColor(R.color.correct_answer));
 
-	         disableButtons();
+	         disableButtons(); //Disable the buttons on the main.xml
 	         if (correctAnswers == 10) 
 	         {
 	            AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -226,11 +267,11 @@ public class FlagQuizGame extends Activity {
 	               {                                                       
 	                  public void onClick(DialogInterface dialog, int id) 
 	                  {
-	                     resetQuiz();                                      
+	                     resetQuiz();// rest the quiz                               
 	                  }                              
 	               }
 	            ); 
-	            AlertDialog resetDialog = builder.create();
+	            AlertDialog resetDialog = builder.create(); //display a dialog box to reset the Quiz or game
 	            resetDialog.show();
 	         } 
 	         else
@@ -246,14 +287,20 @@ public class FlagQuizGame extends Activity {
 	         }
 	      } 
 	      else  
-	      {  flagImageView.startAnimation(shakeAnimation);
-	         answerTextView.setText(R.string.incorrect_answer);
+	      {  flagImageView.startAnimation(shakeAnimation); // play shake
+	         answerTextView.setText(R.string.incorrect_answer); //set the incorrect answer text
+	         
+	      // display "Incorrect!" in red 
 	         answerTextView.setTextColor(
 	            getResources().getColor(R.color.incorrect_answer));
 	         guessButton.setEnabled(false);
 	      } 
 	   } 
-
+	  
+	   
+	   /**
+	    * utility method that disables all answer Buttons 
+	    */
 	   private void disableButtons()
 	   {
 	      for (int row = 0; row < buttonTableLayout.getChildCount(); ++row)
@@ -358,4 +405,4 @@ public class FlagQuizGame extends Activity {
 	         submitGuess((Button) v); 
 	      }
 	   }; 
-}
+} // end class FlagQuiz
