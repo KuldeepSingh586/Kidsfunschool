@@ -130,7 +130,7 @@ public class AnimalQuizGame extends Activity {
 		   private void goMainMenu() 
 		   {      
 		 	  
-			   Intent intent = new Intent(AnimalQuizGame.this, Main.class);
+			   Intent intent = new Intent(AnimalQuizGame.this, MainActivity.class);
 				  startActivity(intent);
 		   }
 		   

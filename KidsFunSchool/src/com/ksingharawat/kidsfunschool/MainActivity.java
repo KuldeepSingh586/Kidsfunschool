@@ -1,27 +1,19 @@
 package com.ksingharawat.kidsfunschool;
 
-import java.util.Set;
-
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.content.pm.ActivityInfo;
-import android.content.res.Configuration;
-import android.graphics.Point;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
+	
+	ImageButton button;
 	public static final String CHOICES = null;
 	public static final String REGIONS = null;
 
@@ -29,8 +21,26 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.launch_main);
+		addListenerOnButton();
 	}
-
+	
+	 private void addListenerOnButton() {
+			
+		 button = (ImageButton) findViewById(R.id.flagButton);
+		 
+		 
+		 button.setOnClickListener(new OnClickListener() {
+	          @Override
+	          public void onClick(View view) {
+	            Toast.makeText(MainActivity.this,"ImageButton Clicked : Flag Button Clicked", 
+	            Toast.LENGTH_SHORT).show();
+	            setContentView(R.layout.main);
+	            Intent intent = new Intent(MainActivity.this, FlagQuizGame.class);
+	  		  startActivity(intent);
+	           
+	          }
+	        });		
+	 }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
