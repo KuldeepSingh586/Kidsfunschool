@@ -29,7 +29,23 @@
     <string name="play">Play</string>
     
     
-       <string-array name="regionsList">
+        <string-array name="animalsList">
+        <item>animal</item>
+      </string-array>   
+      
+      <string-array name="vegetablesList">
+        <item>vegetable</item>
+      </string-array>  
+      
+      <string-array name="fruitsList">
+        <item>fruit</item>
+      </string-array>  
+   
+      <string-array name="monumentsList">
+        <item>monument</item>
+      </string-array>  
+      
+   <string-array name="regionsList">
       
       <item>Africa</item>
       <item>Asia</item>

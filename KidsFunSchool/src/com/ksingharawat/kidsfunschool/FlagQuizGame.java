@@ -66,7 +66,7 @@ public class FlagQuizGame extends Activity {
 	      shakeAnimation = 
 	         AnimationUtils.loadAnimation(this, R.anim.incorrect_shake); 
 	      shakeAnimation.setRepeatCount(3); String[] regionNames = 
-	         getResources().getStringArray(R.array.regions_list);
+	         getResources().getStringArray(R.array.regionsList);
 	      for (String region : regionNames )
 	         regionsMap.put(region, true);
 	      questionNumberTextView = 
