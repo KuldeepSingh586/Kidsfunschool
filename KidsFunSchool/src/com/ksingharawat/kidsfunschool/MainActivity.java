@@ -1,11 +1,5 @@
 package com.ksingharawat.kidsfunschool;
 
-import com.ksar.flagquizgame.AnimalQuizGame;
-import com.ksar.flagquizgame.FruitQuizGame;
-import com.ksar.flagquizgame.Main;
-import com.ksar.flagquizgame.MonumentQuizGame;
-import com.ksar.flagquizgame.Override;
-import com.ksar.flagquizgame.R;
 
 import android.app.Activity;
 import android.content.Intent;

@@ -24,6 +24,12 @@
         </activity>
         <activity android:name="com.ksingharawat.kidsfunschool.FlagQuizGame">
 </activity>
+ <activity android:name="com.ksingharawat.kidsfunschool.AniamlQuizGame">
+</activity>
+ <activity android:name="com.ksingharawat.kidsfunschool.MonumentQuizGame">
+</activity>
+ <activity android:name="com.ksingharawat.kidsfunschool.fruitQuizGame">
+</activity>
     </application>
 
 </manifest>
