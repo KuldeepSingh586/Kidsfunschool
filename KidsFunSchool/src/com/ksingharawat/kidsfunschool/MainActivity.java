@@ -77,7 +77,18 @@ public class MainActivity extends Activity {
 	           
 	          }
 	        });	
-		
+		 button4.setOnClickListener(new OnClickListener() {
+	          @Override
+	          public void onClick(View view) {
+	            Toast.makeText(MainActivity.this,"ImageButton Clicked : Monument Button Clicked", 
+	            Toast.LENGTH_SHORT).show();
+	            setContentView(R.layout.main);
+	            Intent intent = new Intent(MainActivity.this, MonumentQuizGame.class);
+	  		  startActivity(intent);
+	           
+	          }
+	        });	
+
 	 }
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
