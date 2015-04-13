@@ -35,29 +35,29 @@ import android.widget.TextView;
 
 public class AnimalQuizGame extends Activity {
 
-
-		   private static final String TAG = "FlagQuizGame Activity";  
-		   private List<String> fileNameList; // flag file names
+	            // String used when logging error messages
+		   private static final String TAG = "AnimalQuizGame Activity";  
+		   private List<String> fileNameList; // animal file names
 		   private List<String> quizCountriesList;
 		   private Map<String, Boolean> regionsMap; 
-		   private String correctAnswer; 
+		   private String correctAnswer;  // correct animal for the current animal
 		   private int totalGuesses; // number of guesses made
 		   private int correctAnswers; // number of correct guesses
-		   private int guessRows; 
-		   private Random random; 
-		   private Handler handler;
-		   private Animation shakeAnimation;
+		   private int guessRows; // correct country for the current animal
+		   private Random random; // used to randomize the quiz
+		   private Handler handler;  // used to delay loading next animal
+		   private Animation shakeAnimation; // animation for incorrect guess
 		   
-		   private TextView answerTextView;
-		   private TextView questionNumberTextView;
-		   private ImageView flagImageView; 
+		   private TextView answerTextView;  // displays Correct! or Incorrect!
+		   private TextView questionNumberTextView; // shows current question #
+		   private ImageView animalImageView;  // displays a animal
 		   private TableLayout buttonTableLayout; 
 		   
 		   @Override
 		   public void onCreate(Bundle savedInstanceState) 
 		   {
 		      super.onCreate(savedInstanceState); 
-		      setContentView(R.layout.launch_main); 
+		      setContentView(R.layout.main); 
 
 		      fileNameList = new ArrayList<String>();
 		      quizCountriesList = new ArrayList<String>(); 
@@ -73,7 +73,7 @@ public class AnimalQuizGame extends Activity {
 		         regionsMap.put(region, true);
 		      questionNumberTextView = 
 		         (TextView) findViewById(R.id.questionNumberTextView);
-		      flagImageView = (ImageView) findViewById(R.id.imageView);
+		      animalImageView = (ImageView) findViewById(R.id.imageView);
 		      buttonTableLayout = 
 		         (TableLayout) findViewById(R.id.buttonTableLayout);
 		      answerTextView = (TextView) findViewById(R.id.answerTextView);
@@ -83,18 +83,23 @@ public class AnimalQuizGame extends Activity {
 
 		      resetQuiz();
 		   } 
+		   
+		   // set up and start the next quiz 
 		   private void resetQuiz() 
-		   {      
+		   {  
+			   // use AssetManager to get image file names for enabled regions
 		      AssetManager assets = getAssets(); 
-		      fileNameList.clear();
+		      fileNameList.clear(); // empty list of image file names
 		      
 		      try 
 		      {
 		         Set<String> regions = regionsMap.keySet();
-
+		         // loop through each region
+		         
 		         for (String region : regions) 
 		         {
 		            if (regionsMap.get(region))
+		            	 // get a list of all animal image files in this region
 		            {               String[] paths = assets.list(region);
 
 		               for (String path : paths) 
@@ -109,51 +114,61 @@ public class AnimalQuizGame extends Activity {
 		      
 		     
 		      
-		      correctAnswers = 0; 
-		      totalGuesses = 0; 
-		      quizCountriesList.clear(); 
+		      correctAnswers = 0; // reset the number of correct answers made
+		      totalGuesses = 0; // reset the total number of guesses the user made
+		      quizCountriesList.clear(); // clear prior list of quiz animal
 		      
-		      int flagCounter = 1; 
+		      int animalCounter = 1; 
 		      int numberOfFlags = fileNameList.size();
-		      while (flagCounter <= 10) 
+		      // add ANIMAL_IN_QUIZ random file names to the quizCountriesList
+		      while (animalCounter <= 10) 
 		      {
 		         int randomIndex = random.nextInt(numberOfFlags);          
 		         String fileName = fileNameList.get(randomIndex);
+		      // if the region is enabled and it hasn't already been chosen
 		         if (!quizCountriesList.contains(fileName)) 
 		         {
-		            quizCountriesList.add(fileName); 
-		            ++flagCounter;
+		            quizCountriesList.add(fileName); // add the file to the list
+		            ++animalCounter;
 		         }}
-		      loadNextFlag();
-		   } 
-		   
+		      loadNextAnimal();// start the quiz by loading the first animal
+		   } // end method resetQuiz
+		 
+		   // after the quiz is finished it will take the player to the 1st page
 		   private void goMainMenu() 
 		   {      
 		 	  
 			   Intent intent = new Intent(AnimalQuizGame.this, MainActivity.class);
 				  startActivity(intent);
 		   }
-		   
-		   private void loadNextFlag() 
+		   // after the user guesses a correct animal, load the next animal
+		   private void loadNextAnimal() 
 		   {
+			   // get file name of the next animal and remove it from the list
 		      String nextImageName = quizCountriesList.remove(0);
-		      correctAnswer = nextImageName;
+		      correctAnswer = nextImageName;  // update the correct answer
 
-		      answerTextView.setText("");  
+		      answerTextView.setText("");  // clear answerTextView 
+		      
+		      // display current question number
 		      questionNumberTextView.setText(
 		         getResources().getString(R.string.question) + " " + 
 		         (correctAnswers + 1) + " " + 
 		         getResources().getString(R.string.of) + " 10");
+		      
+		      // extract the region from the next image's name
 		      String region = 
 		         nextImageName.substring(0, nextImageName.indexOf('-'));
 		      AssetManager assets = getAssets(); // get app's AssetManager
 		      InputStream stream;
 		      try
-		      {
+		      {  
+		    	  // get an Stream to the asset representing the next animal
 		    	  stream = assets.open(region + "/" + nextImageName + ".png");
 		         
-		         Drawable flag = Drawable.createFromStream(stream, nextImageName);
-		         flagImageView.setImageDrawable(flag);                       
+		    	  // load the asset as a Drawable and display on the animalImageView
+		         Drawable animal = Drawable.createFromStream(stream, nextImageName);
+		         animalImageView.setImageDrawable(animal);                       
 		      }
 		      catch (IOException e)  
 		      {
@@ -162,47 +177,54 @@ public class AnimalQuizGame extends Activity {
 		      for (int row = 0; row < buttonTableLayout.getChildCount(); ++row)
 		         ((TableRow) buttonTableLayout.getChildAt(row)).removeAllViews();
 
-		      Collections.shuffle(fileNameList); 
+		      Collections.shuffle(fileNameList);   // shuffle file names
 		      
+		      // put the correct answer at the end of fileNameList
 		      int correct = fileNameList.indexOf(correctAnswer);
 		      fileNameList.add(fileNameList.remove(correct));
 
 		      LayoutInflater inflater = (LayoutInflater) getSystemService(
 		         Context.LAYOUT_INFLATER_SERVICE);
 
-		      
+		      // add 3, 6, or 9 guess Buttons based on the value of guessRows
 		      for (int row = 0; row < guessRows; row++) 
 		      {
 		         TableRow currentTableRow = getTableRow(row);
-
+		      // place Buttons in currentTableRow
 		         for (int column = 0; column < 3; column++) 
 		         {
+		        	 // get reference to Button to configure
 		            Button newGuessButton = 
 		               (Button) inflater.inflate(R.layout.guess_button, null);
+		            
+		            // get country name and set it as newGuessButton's text
 		            String fileName = fileNameList.get((row * 3) + column);
-		            newGuessButton.setText(getCountryName(fileName));
+		            newGuessButton.setText(getAnimalName(fileName));
 		            newGuessButton.setOnClickListener(guessButtonListener);
 		            currentTableRow.addView(newGuessButton);
 		         } 
 		      } 
-		      int row = random.nextInt(guessRows);
-		      int column = random.nextInt(3); 
-		      TableRow randomTableRow = getTableRow(row);
-		      String countryName = getCountryName(correctAnswer);
+		      // randomly replace one Button with the correct answer
+		      int row = random.nextInt(guessRows);   // pick random row
+		      int column = random.nextInt(3);   // pick random column
+		      TableRow randomTableRow = getTableRow(row);  // get the row
+		      String countryName = getAnimalName(correctAnswer);
 		      ((Button)randomTableRow.getChildAt(column)).setText(countryName);    
 		   } 
 		   private TableRow getTableRow(int row)
 		   {
 		      return (TableRow) buttonTableLayout.getChildAt(row);
 		   } 
-		   private String getCountryName(String name)
+		   
+		   // parses the animal file name and returns the country name
+		   private String getAnimalName(String name)
 		   {
 		      return name.substring(name.indexOf('-') + 1).replace('_', ' ');
 		   }
 		   private void submitGuess(Button guessButton) 
 		   {
 		      String guess = guessButton.getText().toString();
-		      String answer = getCountryName(correctAnswer);
+		      String answer = getAnimalName(correctAnswer);
 		      ++totalGuesses; 
 		      if (guess.equals(answer)) 
 		      {
@@ -253,20 +275,22 @@ public class AnimalQuizGame extends Activity {
 		                  @Override
 		                  public void run()
 		                  {
-		                     loadNextFlag();
+		                	  loadNextAnimal();
 		                  }
 		               }, 1000); 
 		         }
 		      } 
-		      else  
-		      {  flagImageView.startAnimation(shakeAnimation);
+		      else  // guess was incorrect  
+		      {  animalImageView.startAnimation(shakeAnimation);
+		      // display "Incorrect!" in red 
 		         answerTextView.setText(R.string.incorrect_answer);
 		         answerTextView.setTextColor(
 		            getResources().getColor(R.color.incorrect_answer));
-		         guessButton.setEnabled(false);
+		         guessButton.setEnabled(false);    // disable incorrect answer
 		      } 
 		   } 
-
+		   // utility method that disables all answer Buttons 
+		   
 		   private void disableButtons()
 		   {
 		      for (int row = 0; row < buttonTableLayout.getChildCount(); ++row)
@@ -382,4 +406,4 @@ public class AnimalQuizGame extends Activity {
 		         submitGuess((Button) v); 
 		      }
 		   }; 
-}
+}// end class AnimalQuizGame
