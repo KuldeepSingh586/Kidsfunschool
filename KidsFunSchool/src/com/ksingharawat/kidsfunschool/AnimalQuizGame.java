@@ -238,7 +238,7 @@ public class AnimalQuizGame extends Activity {
 		         {
 		            AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-		            builder.setTitle(R.string.reset_quiz);
+		            
 		            builder.setTitle(R.string.mainmenu_quiz);
 		            
 		            builder.setMessage(String.format("%d %s, %.02f%% %s", 
@@ -247,7 +247,7 @@ public class AnimalQuizGame extends Activity {
 		               getResources().getString(R.string.correct)));
 
 		            builder.setCancelable(false); 
-		            builder.setPositiveButton(R.string.reset_quiz,
+		            builder.setPositiveButton(R.string.mainmenu_quiz,
 		               new DialogInterface.OnClickListener()                
 		               {                                                       
 		                  public void onClick(DialogInterface dialog, int id) 
@@ -309,7 +309,7 @@ public class AnimalQuizGame extends Activity {
 		      super.onCreateOptionsMenu(menu);                        
 		                                                              
 		      menu.add(Menu.NONE, CHOICES_MENU_ID, Menu.NONE, R.string.choices);             
-		      menu.add(Menu.NONE, REGIONS_MENU_ID, Menu.NONE, R.string.regions);             
+		      menu.add(Menu.NONE, REGIONS_MENU_ID, Menu.NONE, R.string.mainmenu_quiz);             
 		                                                              
 		      return true; 
 		   }
@@ -350,7 +350,7 @@ public class AnimalQuizGame extends Activity {
 		               regionsEnabled[i] = regionsMap.get(regionNames[i]);
 		            AlertDialog.Builder regionsBuilder =
 		               new AlertDialog.Builder(this);
-		            regionsBuilder.setTitle(R.string.regions);
+		            regionsBuilder.setTitle(R.string.mainmenu_quiz);
 		            
 		            String[] displayNames = new String[regionNames.length];
 		            for (int i = 0; i < regionNames.length; ++i)
