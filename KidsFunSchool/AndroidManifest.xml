@@ -26,10 +26,9 @@
 </activity>
  <activity android:name="com.ksingharawat.kidsfunschool.AnimalQuizGame">
 </activity>
-
  <activity android:name="com.ksingharawat.kidsfunschool.MonumentQuizGame">
 </activity>
- <activity android:name="com.ksingharawat.kidsfunschool.fruitQuizGame">
+ <activity android:name="com.ksingharawat.kidsfunschool.FruitQuizGame">
  </activity>
  <activity android:name="com.ksingharawat.kidsfunschool.VegetableQuizGame"> 
  </activity>
